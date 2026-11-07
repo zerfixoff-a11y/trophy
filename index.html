@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrophyQuest</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏆</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07070c;--bg2:#12121c;--line:rgba(255,255,255,.09);--tx:#ecebf5;--mu:#9a98b3;--vi:#8b5cf6;--bl:#22d3ee;--or:#f5c04a;--ar:#c5c9d6;--br:#c68345;--pl:#9be7ff}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;min-height:100vh;background-image:radial-gradient(60rem 30rem at 80% -10%,rgba(139,92,246,.22),transparent),radial-gradient(40rem 25rem at 0 10%,rgba(34,211,238,.10),transparent)}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--bl);outline-offset:3px}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:1rem;padding:.8rem 1.25rem;background:rgba(7,7,12,.7);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.2rem;letter-spacing:-.02em;white-space:nowrap}
+.logo b{background:linear-gradient(90deg,var(--vi),var(--bl));-webkit-background-clip:text;color:transparent}
+nav{display:flex;gap:.25rem;margin-left:1rem}
+nav a{padding:.45rem .8rem;border-radius:.6rem;color:var(--mu);font-size:.92rem}
+nav a:hover,nav a.on{color:var(--tx);background:var(--bg2)}
+.sp{flex:1}
+input[type=search]{width:min(18rem,100%);background:var(--bg2);border:1px solid var(--line);color:var(--tx);padding:.5rem .8rem;border-radius:.6rem;font:inherit;font-size:.9rem}
+.btn{display:inline-block;border:1px solid var(--line);background:var(--bg2);color:var(--tx);padding:.55rem 1rem;border-radius:.6rem;font:inherit;font-weight:500;font-size:.9rem;cursor:pointer}
+.btn:hover{border-color:var(--vi)}
+.btn.p{background:linear-gradient(135deg,var(--vi),#5b6cf6);border:0;box-shadow:0 0 24px rgba(139,92,246,.45)}
+main{max-width:70rem;margin:0 auto;padding:2rem 1.25rem 5rem}
+.view{display:none}.view.on{display:block}
+.hero{padding:3.5rem 0 2.5rem;display:grid;grid-template-columns:1.2fr 1fr;gap:2.5rem;align-items:center}
+h1{font-size:clamp(2.2rem,5.5vw,4rem);line-height:1.05;letter-spacing:-.035em;font-weight:800}
+.hero p{color:var(--mu);font-size:1.1rem;margin:1.2rem 0 1.6rem;max-width:34rem}
+.ladder{display:grid;gap:.7rem}
+.rung{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;border-radius:1rem;background:rgba(255,255,255,.04);border:1px solid var(--line);backdrop-filter:blur(8px)}
+.rung i{font-style:normal;font-size:1.6rem}
+.rung small{margin-left:auto;color:var(--mu)}
+.rung.pl{border-color:var(--pl);box-shadow:0 0 30px rgba(155,231,255,.22);animation:glow 3s ease-in-out infinite alternate}
+@keyframes glow{to{box-shadow:0 0 44px rgba(155,231,255,.4)}}
+@media(prefers-reduced-motion:reduce){.rung.pl{animation:none}}
+h2{font-size:1.5rem;letter-spacing:-.02em;margin:2.5rem 0 1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem}
+.card{background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:1rem;padding:1.3rem}
+.card h3{font-size:1rem;margin-bottom:.3rem}
+.card p,.mu{color:var(--mu);font-size:.92rem}
+.stat{font-size:2rem;font-weight:800;letter-spacing:-.03em}
+.empty{border:1px dashed var(--line);border-radius:1rem;padding:2rem;text-align:center;color:var(--mu)}
+.empty b{display:block;color:var(--tx);margin-bottom:.3rem}
+.tag{font-size:.75rem;padding:.15rem .55rem;border-radius:2rem;border:1px solid var(--line);color:var(--mu)}
+.row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.bar{height:.5rem;border-radius:1rem;background:var(--bg2);overflow:hidden;margin-top:.6rem}
+.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--vi),var(--bl))}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0}
+.chips button.on{border-color:var(--bl);color:var(--bl)}
+.msg{margin-top:.8rem;font-size:.88rem;color:var(--or)}
+@media(max-width:760px){.hero{grid-template-columns:1fr}nav{position:fixed;bottom:0;left:0;right:0;margin:0;justify-content:space-around;background:rgba(7,7,12,.92);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:.4rem;z-index:6}header input{display:none}main{padding-bottom:6rem}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#accueil">🏆 Trophy<b>Quest</b></a>
+  <nav id="nav">
+    <a href="#accueil">Accueil</a><a href="#dashboard">Dashboard</a><a href="#jeux">Mes jeux</a><a href="#comptes">Mes comptes</a>
+  </nav>
+  <span class="sp"></span>
+  <input type="search" id="q" placeholder="Rechercher un jeu…" aria-label="Rechercher un jeu">
+  <button class="btn" data-soon="La connexion arrive avec Supabase Auth (étape 2).">Connexion</button>
+  <button class="btn p" data-soon="L’inscription arrive avec Supabase Auth (étape 2).">Inscription</button>
+</header>
+
+<main>
+<section class="view" id="accueil">
+  <div class="hero">
+    <div>
+      <h1>Chaque succès raconte ton histoire.</h1>
+      <p>Regroupe tes trophées, suis ta progression et deviens un véritable completionist.</p>
+      <div class="row"><a class="btn p" href="#comptes">Connecter mes comptes</a><a class="btn" href="#dashboard">Voir mon dashboard</a></div>
+      <p class="msg" id="soon" role="status"></p>
+    </div>
+    <div class="ladder" aria-label="Raretés des trophées">
+      <div class="rung"><i>🥉</i><div><b>Bronze</b><div class="mu">Le premier pas</div></div><small>PlayStation</small></div>
+      <div class="rung"><i>🥈</i><div><b>Argent</b><div class="mu">Ça devient sérieux</div></div><small>PlayStation</small></div>
+      <div class="rung"><i>🥇</i><div><b style="color:var(--or)">Or</b><div class="mu">Réservé aux tenaces</div></div><small>PlayStation</small></div>
+      <div class="rung pl"><i>🏆</i><div><b style="color:var(--pl)">Platine</b><div class="mu">100 %. Plus rien à débloquer.</div></div><small>PlayStation</small></div>
+    </div>
+  </div>
+  <h2>Un seul endroit pour tout suivre</h2>
+  <div class="grid">
+    <div class="card"><h3>🎮 Steam</h3><p>Succès, dates de déblocage et temps de jeu via la Steam Web API, si ton profil est public.</p></div>
+    <div class="card"><h3>🔵 PlayStation</h3><p>Trophées bronze, argent, or et platine, par une méthode autorisée ou par import manuel.</p></div>
+    <div class="card"><h3>🟢 Xbox</h3><p>Succès et Gamerscore via les accès officiels Xbox quand ils sont disponibles.</p></div>
+    <div class="card"><h3>🎯 Mode completionist</h3><p>Trophées manquants, jeux presque finis et objectifs à accomplir.</p></div>
+  </div>
+  <h2>Communauté</h2>
+  <div class="grid">
+    <div class="empty"><b>Derniers jeux ajoutés</b>Aucun jeu pour l’instant. Ils apparaîtront après les premières synchronisations.</div>
+    <div class="empty"><b>Classement des joueurs</b>Le classement se remplira avec les vraies données des joueurs inscrits.</div>
+    <div class="empty"><b>Derniers trophées débloqués</b>Rien à afficher. Aucune donnée n’est inventée.</div>
+  </div>
+</section>
+
+<section class="view" id="dashboard">
+  <h2 style="margin-top:0">Mon dashboard</h2>
+  <p class="mu">Ces compteurs sont calculés à partir de tes comptes connectés et de tes ajouts manuels.</p>
+  <div class="grid" style="margin-top:1rem" id="stats"></div>
+  <h2>Progression globale</h2>
+  <div class="card"><div class="row"><b id="pct">0 %</b><span class="mu">de complétion</span></div><div class="bar"><span id="pbar"></span></div></div>
+  <h2>Graphiques</h2>
+  <div class="empty"><b>Pas encore de données à tracer</b>Connecte un compte ou ajoute un jeu pour voir la progression sur 12 mois, la rareté et le temps de jeu.</div>
+</section>
+
+<section class="view" id="jeux">
+  <h2 style="margin-top:0">Mes jeux</h2>
+  <div class="row">
+    <button class="btn p" id="add">Ajouter un jeu manuellement</button>
+    <span class="tag">Les ajouts manuels sont marqués « manuel »</span>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="games"></div>
+</section>
+
+<section class="view" id="comptes">
+  <h2 style="margin-top:0">Mes comptes</h2>
+  <p class="mu">TrophyQuest ne demande jamais tes mots de passe de plateforme.</p>
+  <div class="grid" style="margin-top:1rem">
+    <div class="card"><h3>🎮 Steam</h3><p>Colle ton SteamID64 ou l’URL de ton profil. Le profil doit être public.</p>
+      <input type="search" id="steam" placeholder="steamcommunity.com/id/…" style="margin:.8rem 0;width:100%" aria-label="Profil Steam">
+      <button class="btn p" id="steamBtn">Associer</button><p class="msg" id="steamMsg"></p></div>
+    <div class="card"><h3>🔵 PlayStation</h3><p>Aucune méthode officielle publique fiable. Import manuel des trophées proposé.</p>
+      <p class="mu" style="margin-top:.8rem">Statut : <span class="tag">non connecté</span></p></div>
+    <div class="card"><h3>🟢 Xbox</h3><p>Connexion via les mécanismes officiels Microsoft, à brancher à l’étape 2.</p>
+      <p class="mu" style="margin-top:.8rem">Statut : <span class="tag">non connecté</span></p></div>
+  </div>
+</section>
+</main>
+
+<script>
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+let games=store.get('tq_games',[]),filter='all',query='';
+
+function route(){
+  const h=(location.hash||'#accueil').slice(1);
+  const id=['accueil','dashboard','jeux','comptes'].includes(h)?h:'accueil';
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id===id));
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));
+  scrollTo(0,0);
+}
+addEventListener('hashchange',route);route();
+
+document.querySelectorAll('[data-soon]').forEach(b=>b.onclick=()=>{$('#soon').textContent=b.dataset.soon;location.hash='#accueil'});
+
+function pct(g){return g.total?Math.round(g.done/g.total*100):0}
+function render(){
+  const tot=games.reduce((a,g)=>a+g.total,0),done=games.reduce((a,g)=>a+g.done,0);
+  const full=games.filter(g=>g.total&&g.done===g.total).length;
+  const s=[['Jeux',games.length],['Trophées / succès',tot],['Débloqués',done],['Terminés à 100 %',full],['Platines',0],['Gamerscore Xbox',0]];
+  $('#stats').innerHTML=s.map(([l,v])=>`<div class="card"><div class="stat">${v}</div><div class="mu">${l}</div></div>`).join('');
+  const p=tot?Math.round(done/tot*100):0;$('#pct').textContent=p+' %';$('#pbar').style.width=p+'%';
+  const f=[['all','Tous'],['prog','En cours'],['full','Terminés à 100 %'],['none','Non commencés']];
+  $('#chips').innerHTML=f.map(([k,l])=>`<button class="btn ${k===filter?'on':''}" data-f="${k}">${l}</button>`).join('');
+  document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{filter=b.dataset.f;render()});
+  const list=games.filter(g=>g.name.toLowerCase().includes(query)).filter(g=>filter==='all'||(filter==='full'&&pct(g)===100)||(filter==='none'&&g.done===0)||(filter==='prog'&&g.done>0&&pct(g)<100));
+  $('#games').innerHTML=list.length?list.map(g=>`<div class="card"><div class="row"><h3>${esc(g.name)}</h3><span class="tag">manuel</span></div><p>${esc(g.platform)} · ${g.done}/${g.total}</p><div class="bar"><span style="width:${pct(g)}%"></span></div><div class="row" style="margin-top:.8rem"><button class="btn" data-inc="${g.id}">+1 trophée</button><button class="btn" data-del="${g.id}">Supprimer</button></div>${g.total-g.done>0&&g.total-g.done<=3?`<p class="msg">Il te reste ${g.total-g.done} trophée(s) pour terminer ce jeu à 100 %.</p>`:''}</div>`).join(''):`<div class="empty" style="grid-column:1/-1"><b>${games.length?'Aucun résultat':'Ta bibliothèque est vide'}</b>${games.length?'Change de filtre ou de recherche.':'Ajoute un jeu manuellement ou connecte un compte.'}</div>`;
+  document.querySelectorAll('[data-inc]').forEach(b=>b.onclick=()=>{const g=games.find(x=>x.id==b.dataset.inc);if(g.done<g.total){g.done++;save()}});
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{games=games.filter(x=>x.id!=b.dataset.del);save()});
+}
+function esc(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function save(){store.set('tq_games',games);render()}
+$('#add').onclick=()=>{
+  const name=prompt('Nom du jeu ?');if(!name)return;
+  const platform=prompt('Plateforme (Steam, PlayStation, Xbox…) ?','PlayStation')||'Autre';
+  const total=parseInt(prompt('Nombre total de trophées / succès ?','0'),10)||0;
+  const done=Math.min(total,parseInt(prompt('Combien sont débloqués ?','0'),10)||0);
+  games.push({id:Date.now(),name:name.trim(),platform,total,done});save();
+};
+$('#q').oninput=e=>{query=e.target.value.toLowerCase();location.hash='#jeux';render()};
+$('#steamBtn').onclick=()=>{
+  const v=$('#steam').value.trim();
+  $('#steamMsg').textContent=v?'La synchronisation Steam passera par une fonction serveur Supabase (étape 2) : la clé API ne doit jamais être dans le navigateur.':'Entre un SteamID64 ou une URL de profil.';
+};
+render();
+</script>
+</body>
+</html>
